@@ -1,0 +1,6 @@
+---
+
+- name: user groups wheel,audio,docker
+  user:
+    name: "{{ ssh_user }}"
+    groups: wheel,audio,docker

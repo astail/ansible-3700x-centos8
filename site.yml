@@ -11,3 +11,4 @@
     - sbt
     - scala
     - docker
+    - user_update
