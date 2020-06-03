@@ -1,0 +1,23 @@
+---
+
+- name: yum group-install Development tools
+  yum:
+    name: "@Development tools"
+
+- name: yum install libevent-devel ncurses-devel
+  yum:
+    name:
+      - libevent-devel
+      - ncurses-devel
+
+- name: git clone tmux
+  git:
+    repo: https://github.com/tmux/tmux.git
+    dest: /usr/local/src/tmux
+    version: master
+
+- name: tmux make install
+  shell: ./autogen.sh && ./configure --prefix=/usr/local && make && make install
+  args:
+    chdir: /usr/local/src/tmux
+    creates: /usr/local/bin/tmux

@@ -7,3 +7,4 @@
     - hostname
     - common
     - sshd_and_user
+    - tmux
