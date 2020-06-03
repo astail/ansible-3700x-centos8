@@ -1,7 +1,7 @@
 ---
 
 tmp: /tmp
-scala_version: 2.12.8
+scala_version: 2.13.2
 ssh_user: "astel"
 db_root_user_password: "{{ vault_db_root_user_password }}"
 db_zabbix_user_password: "{{ vault_db_zabbix_user_password }}"

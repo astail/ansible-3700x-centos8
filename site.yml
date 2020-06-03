@@ -8,3 +8,5 @@
     - common
     - sshd_and_user
     - tmux
+    - sbt
+    - scala
