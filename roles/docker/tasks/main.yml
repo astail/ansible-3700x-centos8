@@ -1,0 +1,38 @@
+---
+
+- name: dnf install yum-utils
+  dnf:
+    name: yum-utils
+
+- name: dnf config-manager add repo
+  command: "dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+  args:
+    chdir: "/etc/yum.repos.d"
+    creates: docker-ce.repo
+
+- name: dnf install containerd.io
+  dnf:
+    name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.13-3.2.el7.x86_64.rpm
+
+- name: dnf install docker-ce
+  dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+
+- name: systemctl start docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: install docker compose
+  shell: curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  args:
+    chdir: "/usr/local/bin"
+    creates: docker-compose
+
+- name: chmod docker-compose
+  file:
+    path: /usr/local/bin/docker-compose
+    mode: '0775'

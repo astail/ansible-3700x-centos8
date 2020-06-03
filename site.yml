@@ -10,3 +10,4 @@
     - tmux
     - sbt
     - scala
+    - docker
