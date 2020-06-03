@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  become: true
+  roles:
+    - first_common
+    - hostname
+    - common
+    - sshd_and_user

@@ -1,0 +1,57 @@
+---
+
+- name: setup language en_US.UTF-8
+  copy:
+    src: locale.conf
+    dest: /etc/locale.conf
+
+- name: Timezone Set
+  file:
+    src: /usr/share/zoneinfo/Asia/Tokyo
+    dest: /etc/localtime
+    state: link
+    force: yes
+
+- name: install epel repository
+  dnf:
+    name: epel-release
+
+- name: dnf group-install
+  dnf:
+    name:
+      - "@Base"
+      - "@Development tools"
+
+- name: install common service
+  dnf:
+    name:
+      - kernel-devel
+      - tcpdump
+      - git
+      - dstat
+      - iotop
+      - screen
+      - zsh
+      - gdisk
+      - rsyslog
+      - ethtool
+      - bind-utils
+      - net-tools
+      - telnet
+      - wget
+      - vim
+
+- name: install epel common service
+  dnf:
+    name:
+      - iftop
+      - htop
+      - jq
+      - ansible
+    enablerepo: epel
+
+- name: sed DefaultLimitNOFILE=65535 /etc/systemd/system.conf
+  replace:
+    dest: '/etc/systemd/system.conf'
+    regexp: '#DefaultLimitNOFILE='
+    replace: 'DefaultLimitNOFILE=65535'

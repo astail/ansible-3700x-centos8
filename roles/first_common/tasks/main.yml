@@ -1,0 +1,5 @@
+---
+
+- name: 石川さんごめんなさい
+  selinux:
+    state: disabled

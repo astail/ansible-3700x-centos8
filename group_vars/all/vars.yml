@@ -1,0 +1,18 @@
+---
+
+tmp: /tmp
+scala_version: 2.12.8
+ssh_user: "astel"
+db_root_user_password: "{{ vault_db_root_user_password }}"
+db_zabbix_user_password: "{{ vault_db_zabbix_user_password }}"
+zabbix_web_root: "zabbix"
+db_epgstation_user_name: epgstation
+db_epgstation_user_pass: "{{ vault_db_epgstation_user_pass }}"
+db_epgstation_name: epgstation
+
+nginx_auth_user: "{{ vault_nginx_auth_user }}"
+nginx_auth_pass: "{{ vault_nginx_auth_pass }}"
+
+slack_status_token: "{{ vault_slack_status_token }}"
+
+domain: "{{ vault_domain }}"

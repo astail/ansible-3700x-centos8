@@ -1,0 +1,5 @@
+---
+
+- name: setting hostname
+  hostname:
+    name: 3700x
