@@ -39,6 +39,6 @@
 
 - name: firewalld add-masquerade
   firewalld:
-    masquerade: yes
+    masquerade: 'True'
     state: enabled
     permanent: yes
