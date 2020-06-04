@@ -1,0 +1,67 @@
+---
+
+- name: mkdir docker-compose dir
+  file:
+    path: /home/astel/docker-compose
+    state: directory
+    owner: astel
+    group: astel
+
+- name: mkdir factorio compose dir
+  file:
+    path: /home/astel/docker-compose/factorio
+    state: directory
+    owner: astel
+    group: astel
+
+- name: copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: /home/astel/docker-compose/factorio/docker-compose.yml
+    owner: astel
+    group: astel
+
+- name: firewalld factorio 34197 udp
+  firewalld:
+    port: 34197/udp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: firewalld factorio-grafana 3001 tcp
+  firewalld:
+    port: 3001/tcp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: mkdir factorio dir
+  file:
+    path: /opt/factorio
+    state: directory
+    owner: '845'
+    group: '845'
+
+- name: docker-compose up
+  shell: /usr/local/bin/docker-compose up -d && sudo chown -R 845:845 /opt/factorio && /usr/local/bin/docker-compose up -d
+  args:
+    chdir: /home/astel/docker-compose/factorio
+  become: false
+
+- name: fix config auto_pause
+  replace:
+    dest: /opt/factorio/config/server-settings.json
+    regexp: '\s"auto_pause": false'
+    replace: '  "auto_pause": true'
+
+- name: fix config non_blocking_saving
+  replace:
+    dest: /opt/factorio/config/server-settings.json
+    regexp: '\s"non_blocking_saving": false'
+    replace: '  "non_blocking_saving": true'
+
+- name: docker-compose restart
+  shell: /usr/local/bin/docker-compose restart
+  args:
+    chdir: /home/astel/docker-compose/factorio
+  become: false
