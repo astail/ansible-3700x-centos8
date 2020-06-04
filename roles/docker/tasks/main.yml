@@ -36,3 +36,9 @@
   file:
     path: /usr/local/bin/docker-compose
     mode: '0775'
+
+- name: firewalld add-masquerade
+  firewalld:
+    masquerade: yes
+    state: enabled
+    permanent: yes
