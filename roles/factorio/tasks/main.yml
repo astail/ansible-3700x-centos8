@@ -51,8 +51,8 @@
 - name: fix config auto_pause
   replace:
     dest: /opt/factorio/config/server-settings.json
-    regexp: '\s"auto_pause": false'
-    replace: '  "auto_pause": true'
+    regexp: '\s"auto_pause": true'
+    replace: '  "auto_pause": false'
 
 - name: fix config non_blocking_saving
   replace:
