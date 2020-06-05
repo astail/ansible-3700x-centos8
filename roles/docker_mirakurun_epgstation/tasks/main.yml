@@ -1,0 +1,46 @@
+---
+#TODO:冪等性なし
+- name: git clone docker-mirakurun-epgstation
+  git:
+    repo: https://github.com/l3tnun/docker-mirakurun-epgstation.git
+    dest: /home/astel/docker-compose/docker-mirakurun-epgstation
+    version: b83bed10dc3b3359f8e86e7415423cb6d01dcb9e
+  become: false
+
+- name: docker-compose pull
+  command: /usr/local/bin/docker-compose pull
+  args:
+    chdir: /home/astel/docker-compose/docker-mirakurun-epgstation
+  become: false
+
+- name: docker-compose build
+  command: /usr/local/bin/docker-compose build
+  args:
+    chdir: /home/astel/docker-compose/docker-mirakurun-epgstation
+  become: false
+
+- name: copy channels.yml
+  copy:
+    src: channels.yml
+    dest: /home/astel/docker-compose/docker-mirakurun-epgstation/mirakurun/conf/channels.yml
+    owner: astel
+    group: astel
+
+- name: copy tuners.yml
+  copy:
+    src: tuners.yml
+    dest: /home/astel/docker-compose/docker-mirakurun-epgstation/mirakurun/conf/tuners.yml
+    owner: astel
+    group: astel
+
+- name: copy docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: /home/astel/docker-compose/docker-mirakurun-epgstation/docker-compose.yml
+    owner: astel
+    group: astel
+
+- name: docker-compose up
+  command: docker-compose up -d
+  args:
+    chdir: /home/astel/docker-compose/docker-mirakurun-epgstation
