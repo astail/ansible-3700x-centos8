@@ -64,3 +64,11 @@
     value: "auth\t\trequired\tpam_wheel.so\tuse_uid"
     insertafter: EOF
     state: present
+
+- name: set ssh user locale
+  lineinfile:
+    regexp: '^export LC_ALL='
+    line: 'export LC_ALL="en_US.UTF-8"'
+    insertafter: EOF
+    state: present
+    dest: "/home/{{ ssh_user }}/.bashrc"
