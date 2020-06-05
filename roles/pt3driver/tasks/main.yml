@@ -26,4 +26,7 @@
     shell: make && make install
     args:
       chdir: "{{ tmp }}/pt3-master"
+
+  - name: reboot
+    reboot:
   when: bin.stdout.find('99-pt3.rules') == -1
