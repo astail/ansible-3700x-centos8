@@ -1,0 +1,21 @@
+---
+
+- name: mkdir eggplantbot-discord dir
+  file:
+    path: /home/astel/docker-compose/eggplantbot-discord
+    state: directory
+    owner: astel
+    group: astel
+
+- name: copy eggplantbot-discord-docker-compose.yml
+  copy:
+    src: eggplantbot-discord-docker-compose.yml
+    dest: /home/astel/docker-compose/eggplantbot-discord/docker-compose.yml
+    owner: astel
+    group: astel
+
+- name: docker-compose up
+  shell: export EGGPLANTBOT_DISCORD={{ EGGPLANTBOT_DISCORD }} && /usr/local/bin/docker-compose up -d
+  args:
+    chdir: /home/astel/docker-compose/eggplantbot-discord
+  become: false

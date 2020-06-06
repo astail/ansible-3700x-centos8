@@ -1,0 +1,6 @@
+version: "3"
+services:
+  eggplantbot-discord:
+    image: astail/eggplantbot-discord
+    environment:
+      EGGPLANTBOT_DISCORD: ${EGGPLANTBOT_DISCORD:-default}
