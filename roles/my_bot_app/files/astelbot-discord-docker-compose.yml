@@ -1,0 +1,43 @@
+version: "3.7"
+services:
+  astelbot-discord:
+    image: astail/astelbot-discord
+    depends_on:
+      - dbserver
+      - redis
+    environment:
+      ASTEL_BOT_DISCORD: ${ASTEL_BOT_DISCORD}
+      twitter4sConsumerKey: ${twitter4sConsumerKey}
+      twitter4sConsumerSecret: ${twitter4sConsumerSecret}
+      twitter4sAccessToken: ${twitter4sAccessToken}
+      twitter4sCcessTokenSecret: ${twitter4sCcessTokenSecret}
+      TWITTERNAME: ${TWITTERNAME}
+      DISCORD_WEBHOOK: ${DISCORD_WEBHOOK}
+      RUKUTE_USER_ID: ${RUKUTE_USER_ID}
+      LINE_AUTH: ${LINE_AUTH}
+      ASTEL_BOT_DB_URL: "jdbc:mysql://dbserver:3306/discord"
+      ASTEL_BOT_DB_USER: "discord"
+      ASTEL_BOT_DB_PASS: "discordpass"
+      ASTEL_BOT_REDIS_HOST: "redisserver"
+      ASTEL_BOT_REDIS_PORT: "6379"
+
+  dbserver:
+    image: mysql:5.7
+    volumes:
+       - "./mysql/data:/var/lib/mysql"
+       - "./mysql:/docker-entrypoint-initdb.d"
+    environment:
+      MYSQL_USER: "discord"
+      MYSQL_PASSWORD: "discordpass"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: "discord"
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis:3.2.12
+    hostname: redisserver
+    ports:
+      - "6379:6379"
