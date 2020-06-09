@@ -9,6 +9,7 @@
   with_items:
     - eggplantbot-discord
     - astelbot-discord
+    - pistelbot-discord
 
 - name: copy eggplantbot-discord-docker-compose.yml
   copy:
@@ -19,6 +20,7 @@
   with_items:
     - eggplantbot-discord
     - astelbot-discord
+    - pistelbot-discord
 
 - name: eggplantbot-discord docker-compose up
   shell: export EGGPLANTBOT_DISCORD={{ EGGPLANTBOT_DISCORD }} && /usr/local/bin/docker-compose up -d
@@ -26,12 +28,15 @@
     chdir: /home/astel/docker-compose/eggplantbot-discord
   become: false
 
-- name: copy astelbot-discord env
+- name: copy env
   copy:
-    src: env
-    dest: /home/astel/docker-compose/astelbot-discord/.env
+    src: "{{ item }}-env"
+    dest: "/home/astel/docker-compose/{{ item }}/.env"
     owner: astel
     group: astel
+  with_items:
+    - astelbot-discord
+    - pistelbot-discord
 
 - name: mkdir astelbot-discord mysql dir
   file:
@@ -54,8 +59,14 @@
     owner: astel
     group: astel
 
-- name: docker-compose up
+- name: docker-compose astelbot-discord up
   command: /usr/local/bin/docker-compose up -d
   args:
     chdir: /home/astel/docker-compose/astelbot-discord
+  become: false
+
+- name: docker-compose pistelbot-discord up
+  command: /usr/local/bin/docker-compose up -d
+  args:
+    chdir: /home/astel/docker-compose/pistelbot-discord
   become: false

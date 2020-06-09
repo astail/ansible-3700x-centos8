@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  pistelbot-discord:
+    image: astail/pistelbot-discord
+    depends_on:
+      - redis
+    environment:
+      PISTEL_BOT_DISCORD: ${PISTEL_BOT_DISCORD}
+      IGNORE_USER_ID: ${IGNORE_USER_ID}
+      PISTEL_BOT_REDIS_HOST: redis
+
+  redis:
+    image: redis:3.2.12
