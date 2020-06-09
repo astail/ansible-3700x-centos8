@@ -8,6 +8,8 @@ services:
       PISTEL_BOT_DISCORD: ${PISTEL_BOT_DISCORD}
       IGNORE_USER_ID: ${IGNORE_USER_ID}
       PISTEL_BOT_REDIS_HOST: redis
+    restart: "always"
 
   redis:
     image: redis:3.2.12
+    restart: "always"

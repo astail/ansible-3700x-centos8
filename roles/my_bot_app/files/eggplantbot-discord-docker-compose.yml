@@ -4,3 +4,4 @@ services:
     image: astail/eggplantbot-discord
     environment:
       EGGPLANTBOT_DISCORD: ${EGGPLANTBOT_DISCORD:-default}
+    restart: "always"
