@@ -1,72 +1,37 @@
 ---
 
-- name: mkdir eggplantbot-discord dir
-  file:
-    path: "/home/astel/docker-compose/{{ item }}"
-    state: directory
-    owner: astel
-    group: astel
-  with_items:
-    - eggplantbot-discord
-    - astelbot-discord
-    - pistelbot-discord
 
-- name: copy eggplantbot-discord-docker-compose.yml
-  copy:
-    src: "{{ item }}-docker-compose.yml"
-    dest: "/home/astel/docker-compose/{{ item }}/docker-compose.yml"
-    owner: astel
-    group: astel
-  with_items:
-    - eggplantbot-discord
-    - astelbot-discord
-    - pistelbot-discord
+- block:
+  - name: mkdir docker-compose dir
+    file:
+      path: "/home/astel/docker-compose/{{ item }}"
+      state: directory
+    with_items: "{{ bot_names }}"
 
-- name: eggplantbot-discord docker-compose up
-  shell: export EGGPLANTBOT_DISCORD={{ EGGPLANTBOT_DISCORD }} && /usr/local/bin/docker-compose up -d
-  args:
-    chdir: /home/astel/docker-compose/eggplantbot-discord
-  become: false
+  - name: copy docker-compose.yml
+    copy:
+      src: "{{ item }}-docker-compose.yml"
+      dest: "/home/astel/docker-compose/{{ item }}/docker-compose.yml"
+    with_items: "{{ bot_names }}"
 
-- name: copy env
-  copy:
-    src: "{{ item }}-env"
-    dest: "/home/astel/docker-compose/{{ item }}/.env"
-    owner: astel
-    group: astel
-  with_items:
-    - astelbot-discord
-    - pistelbot-discord
+  - name: copy env
+    copy:
+      src: "{{ item }}-env"
+      dest: "/home/astel/docker-compose/{{ item }}/.env"
+    with_items: "{{ bot_names }}"
 
-- name: mkdir astelbot-discord mysql dir
-  file:
-    path: "/home/astel/docker-compose/astelbot-discord/mysql"
-    state: directory
-    owner: astel
-    group: astel
+  - name: mkdir astelbot-discord mysql dir
+    file:
+      path: "/home/astel/docker-compose/astelbot-discord/mysql"
+      state: directory
 
-- name: mkdir astelbot-discord mysql data dir
-  file:
-    path: "/home/astel/docker-compose/astelbot-discord/mysql/data"
-    state: directory
-    owner: astel
-    group: astel
+  - name: copy init mysql sql
+    copy:
+      src: astelbot-discord-discord.sql
+      dest: /home/astel/docker-compose/astelbot-discord/mysql/discord.sql
 
-- name: copy init mysql sql
-  copy:
-    src: astelbot-discord-discord.sql
-    dest: /home/astel/docker-compose/astelbot-discord/mysql/discord.sql
-    owner: astel
-    group: astel
-
-- name: docker-compose astelbot-discord up
-  command: /usr/local/bin/docker-compose up -d
-  args:
-    chdir: /home/astel/docker-compose/astelbot-discord
-  become: false
-
-- name: docker-compose pistelbot-discord up
-  command: /usr/local/bin/docker-compose up -d
-  args:
-    chdir: /home/astel/docker-compose/pistelbot-discord
+  - name: docker-compose up
+    docker_compose:
+      project_src: /home/astel/docker-compose/{{ item }}
+    with_items: "{{ bot_names }}"
   become: false
