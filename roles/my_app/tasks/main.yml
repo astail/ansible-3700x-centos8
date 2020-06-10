@@ -32,6 +32,14 @@
 
   - name: docker-compose up
     docker_compose:
-      project_src: /home/astel/docker-compose/{{ item }}
+      project_src: "/home/astel/docker-compose/{{ item }}"
+    with_items: "{{ bot_names }}"
+
+  - name: cron restart discord-app
+    cron:
+      name: "restart {{ item }}"
+      minute: "0"
+      hour: "6"
+      job: "cd /home/astel/docker-compose/{{ item }} && /usr/local/bin/docker-compose restart"
     with_items: "{{ bot_names }}"
   become: false
