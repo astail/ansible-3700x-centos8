@@ -5,7 +5,6 @@ services:
     image: itzg/minecraft-server
     ports:
       - "25565:25565"
-      - "25575:25575"
     volumes:
       - "./data:/data"
     environment:
@@ -15,3 +14,16 @@ services:
       RCON_PASSWORD: ${RCON_PASSWORD}
       RCON_PORT: 25575
     restart: always
+
+  minecord:
+    image: astail/minecord
+    volumes:
+      - "./data/logs:/var/log/minecraft"
+    depends_on:
+      - minecraft
+    environment:
+      minecraftRconHost: minecraft
+      minecraftRconPort: 25575
+      minecraftRconPassword: ${RCON_PASSWORD}
+      discordBotToken: ${discordBotToken}
+      discordChannel: ${discordChannel}

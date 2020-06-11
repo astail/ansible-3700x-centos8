@@ -37,3 +37,10 @@
     when: result is changed
 
   become: false
+
+- name: firewalld minecraft
+  firewalld:
+    port: 25565/tcp
+    permanent: true
+    state: enabled
+    immediate: true
