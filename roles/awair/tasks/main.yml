@@ -1,0 +1,20 @@
+---
+
+- block:
+
+  - name: git clone astail/awair
+    git:
+      repo: https://github.com/astail/awair.git
+      dest: /home/astel/docker-compose/awair
+      version: master
+
+  - name: copy env
+    copy:
+      src: "env"
+      dest: "/home/astel/docker-compose/awair/.env"
+
+  - name: docker-compose up
+    docker_compose:
+      project_src: "/home/astel/docker-compose/awair"
+
+  become: false
