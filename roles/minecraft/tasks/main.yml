@@ -1,0 +1,39 @@
+---
+
+- block:
+
+  - name: mkdir minecraft
+    file:
+      path: "/home/astel/docker-compose/minecraft"
+      state: directory
+
+  - name: copy docker-compose.yml
+    copy:
+      src: "docker-compose.yml"
+      dest: "/home/astel/docker-compose/minecraft/docker-compose.yml"
+
+  - name: copy env
+    copy:
+      src: "env"
+      dest: "/home/astel/docker-compose/minecraft/.env"
+
+  - name: docker-compose up
+    docker_compose:
+      project_src: "/home/astel/docker-compose/minecraft"
+
+  - name: copy ops.json whitelist.json
+    copy:
+      src: "{{ item }}"
+      dest: "/home/astel/docker-compose/minecraft/data/{{ item }}"
+    with_items:
+      - ops.json
+      - whitelist.json
+    register: result
+
+  - name: docker-compose restart
+    docker_compose:
+      project_src: "/home/astel/docker-compose/minecraft"
+      restarted: yes
+    when: result is changed
+
+  become: false
