@@ -22,6 +22,7 @@ services:
     depends_on:
       - minecraft
     environment:
+      enable: "chat"
       minecraftRconHost: minecraft
       minecraftRconPort: 25575
       minecraftRconPassword: ${RCON_PASSWORD}
