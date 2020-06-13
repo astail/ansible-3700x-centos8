@@ -28,3 +28,4 @@ services:
       minecraftRconPassword: ${RCON_PASSWORD}
       discordBotToken: ${discordBotToken}
       discordChannel: ${discordChannel}
+    restart: always
