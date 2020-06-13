@@ -16,6 +16,7 @@
     copy:
       src: "env"
       dest: "/home/astel/docker-compose/minecraft/.env"
+    register: result
 
   - name: docker-compose up
     docker_compose:
@@ -28,6 +29,13 @@
     with_items:
       - ops.json
       - whitelist.json
+    register: result
+
+  - name: sed white-list=true
+    replace:
+      dest: "/home/astel/docker-compose/minecraft/data/server.properties"
+      regexp: "white-list=false"
+      replace: "white-list=true"
     register: result
 
   - name: docker-compose restart
