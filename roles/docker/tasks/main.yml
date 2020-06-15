@@ -31,6 +31,7 @@
   args:
     chdir: "/usr/local/bin"
     creates: docker-compose
+  tags: skip_ansible_lint
 
 - name: chmod docker-compose
   file:
