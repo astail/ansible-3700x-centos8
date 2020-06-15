@@ -12,7 +12,6 @@ jobs:
       - run: sudo apt-get install libyaml-dev
       - run: sudo pip install ansible ansible-lint==3.4.23
       - run: ansible --version
-      - run: echo "${ANSIBLE_VAULT_PASS}" > ansible_vault.txt
       - run:
          name: create all.yml
          command: |
@@ -22,4 +21,3 @@ jobs:
              roles:" >> all.yml
            ls roles | sed "s/^/    - /g" >> all.yml
       - run: ansible-lint all.yml
-      - run: ansible-playbook -i "localhost," all.yml --syntax-check --vault-password-file ansible_vault.txt
