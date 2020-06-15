@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  ark:
+    image: turzam/ark
+    ports:
+      - "7778:7778"
+      - "7778:7778/udp"
+      - "27016:27015"
+      - "27016:27015/udp"
+    restart: always
+    volumes:
+      - ./data:/ark
+    environment:
+      SESSIONNAME: astel_ark_docker
+      ADMINPASSWORD: ${ADMINPASSWORD}
+      SERVERPASSWORD: ${SERVERPASSWORD}
+      SERVERMAP: "TheIsland"
+      TZ: Asia/Tokyo

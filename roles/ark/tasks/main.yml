@@ -1,0 +1,39 @@
+---
+
+- block:
+
+  - name: mkdir ark
+    file:
+      path: "/home/astel/docker-compose/ark"
+      state: directory
+
+  - name: copy docker-compose.yml
+    copy:
+      src: "docker-compose.yml"
+      dest: "/home/astel/docker-compose/ark/docker-compose.yml"
+
+  - name: copy env
+    copy:
+      src: "env"
+      dest: "/home/astel/docker-compose/ark/.env"
+    register: result
+
+  - name: docker-compose up
+    docker_compose:
+      project_src: "/home/astel/docker-compose/ark"
+
+  become: false
+
+- name: firewalld ark 7778/udp
+  firewalld:
+    port: 7778/udp
+    permanent: true
+    state: enabled
+    immediate: true
+
+- name: firewalld ark 27016/udp
+  firewalld:
+    port: 27016/udp
+    permanent: true
+    state: enabled
+    immediate: true
