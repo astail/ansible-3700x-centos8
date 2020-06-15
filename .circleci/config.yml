@@ -1,0 +1,23 @@
+---
+
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/ansible_astail
+    docker:
+      - image: circleci/python:3.6.8
+    steps:
+      - checkout
+
+      - run: sudo apt-get install libyaml-dev
+      - run: sudo pip install ansible ansible-lint
+      - run: ansible --version
+      - run:
+         name: create all.yml
+         command: |
+           echo "
+           - hosts: all
+             become: true
+             roles:" >> all.yml
+           ls roles | sed "s/^/    - /g" >> all.yml
+      - run: ansible-lint all.yml

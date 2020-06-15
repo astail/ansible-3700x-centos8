@@ -61,7 +61,7 @@
     replace: '  "non_blocking_saving": true'
 
 - name: docker-compose restart
-  shell: /usr/local/bin/docker-compose restart
+  command: /usr/local/bin/docker-compose restart
   args:
     chdir: /home/astel/docker-compose/factorio
   become: false
