@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -eu
+ansible-lint site.yml
+set +eu
 
 if [ -z "$1" ]; then
   user=`whoami`
@@ -22,6 +25,7 @@ else
     host="m"
   fi
 fi
+
 
 cmd="ansible-playbook -i inventory/hosts -l ${host} site.yml -u $user --vault-password-file="~/ansible-pass" -v $option"
 
