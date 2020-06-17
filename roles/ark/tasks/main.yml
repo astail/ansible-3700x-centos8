@@ -38,6 +38,21 @@
     state: enabled
     immediate: true
 
+- name: copy backup.sh
+  copy:
+    src: ark_backup.sh
+    dest: /opt/ark_backup.sh
+    owner: astel
+    group: astel
+    mode: 0755
+
+- name: cron ark backup
+  cron:
+    name: "ark backup"
+    minute: "0"
+    hour: "*/6"
+    job: "/opt/ark_backup.sh"
+  become: false
 
 #cat /etc/arkmanager/instances/main.cfg
 ## Config root directory
