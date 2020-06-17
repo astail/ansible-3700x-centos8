@@ -24,16 +24,23 @@
 
   become: false
 
-- name: firewalld ark 7778/udp
+- name: firewalld ark 27015/udp
   firewalld:
-    port: 7778/udp
+    port: 27015/udp
     permanent: true
     state: enabled
     immediate: true
 
-- name: firewalld ark 27016/udp
+- name: firewalld ark 10625/udp
   firewalld:
-    port: 27016/udp
+    port: 10625/udp
     permanent: true
     state: enabled
     immediate: true
+
+
+#cat /etc/arkmanager/instances/main.cfg
+## Config root directory
+#arkserverroot="/ark/server"
+#ark_bRawSockets=""
+#arkflag_crossplay=""
