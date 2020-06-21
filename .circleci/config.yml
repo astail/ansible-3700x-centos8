@@ -5,12 +5,9 @@ jobs:
   build:
     working_directory: ~/ansible_astail
     docker:
-      - image: circleci/python:3.6.8
+      - image: astail/ansible_circleci
     steps:
       - checkout
-
-      - run: sudo apt-get install libyaml-dev
-      - run: sudo pip install ansible ansible-lint
       - run: ansible --version
       - run:
          name: create all.yml
