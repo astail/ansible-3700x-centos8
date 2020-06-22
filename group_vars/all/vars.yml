@@ -16,3 +16,5 @@ nginx_auth_pass: "{{ vault_nginx_auth_pass }}"
 slack_status_token: "{{ vault_slack_status_token }}"
 
 domain: "{{ vault_domain }}"
+
+vpn_port: "{{ vault_vpn_port }}"

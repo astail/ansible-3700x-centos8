@@ -1,0 +1,26 @@
+---
+
+- block:
+
+  - name: mkdir pritunl
+    file:
+      path: "/home/astel/docker-compose/pritunl"
+      state: directory
+
+  - name: copy docker-compose.yml
+    template:
+      src: "docker-compose.yml"
+      dest: "/home/astel/docker-compose/pritunl/docker-compose.yml"
+
+  - name: docker-compose up
+    docker_compose:
+      project_src: "/home/astel/docker-compose/pritunl"
+
+  become: false
+
+- name: firewalld pritunl
+  firewalld:
+    port: "{{ vpn_port }}/udp"
+    permanent: true
+    state: enabled
+    immediate: true
