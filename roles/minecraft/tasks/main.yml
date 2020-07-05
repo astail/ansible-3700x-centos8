@@ -44,6 +44,13 @@
       restarted: yes
     when: result is changed
 
+  - name: cron restart minecraft
+    cron:
+      name: "restart minecraft"
+      minute: "30"
+      hour: "5"
+      job: "cd /home/astel/docker-compose/minecraft && /usr/local/bin/docker-compose restart"
+
   become: false
 
 - name: firewalld minecraft
