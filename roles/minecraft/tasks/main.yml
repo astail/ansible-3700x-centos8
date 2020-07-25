@@ -44,12 +44,20 @@
       restarted: yes
     when: result is changed
 
-  - name: cron restart minecraft
+  - name: copy backup.sh
+    copy:
+      src: minecraft_backup.sh
+      dest: /opt/minecraft_backup.sh
+      owner: astel
+      group: astel
+      mode: 0755
+
+  - name: cron backup minecraft
     cron:
-      name: "restart minecraft"
+      name: "backup minecraft"
       minute: "30"
       hour: "5"
-      job: "cd /home/astel/docker-compose/minecraft && /usr/local/bin/docker-compose restart"
+      job: "/opt/minecraft_backup.sh"
 
   become: false
 
