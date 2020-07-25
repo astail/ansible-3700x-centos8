@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  minecraft:
+    image: itzg/minecraft-server
+    ports:
+      - "25566:25565"
+    volumes:
+      - "./data:/data"
+    environment:
+      EULA: "TRUE"
+      CONSOLE: "false"
+      ENABLE_RCON: "true"
+    restart: always

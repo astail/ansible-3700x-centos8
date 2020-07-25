@@ -1,0 +1,55 @@
+---
+
+- block:
+
+  - name: mkdir minecraft-old
+    file:
+      path: "/home/astel/docker-compose/minecraft-old"
+      state: directory
+
+  - name: copy docker-compose.yml
+    copy:
+      src: "docker-compose.yml"
+      dest: "/home/astel/docker-compose/minecraft-old/docker-compose.yml"
+
+  - name: docker-compose up
+    docker_compose:
+      project_src: "/home/astel/docker-compose/minecraft-old"
+
+  - name: copy ops.json whitelist.json
+    copy:
+      src: "{{ item }}"
+      dest: "/home/astel/docker-compose/minecraft-old/data/{{ item }}"
+    with_items:
+      - ops.json
+      - whitelist.json
+    register: result
+
+  - name: sed white-list=true
+    replace:
+      dest: "/home/astel/docker-compose/minecraft-old/data/server.properties"
+      regexp: "white-list=false"
+      replace: "white-list=true"
+    register: result
+
+  - name: docker-compose restart
+    docker_compose:
+      project_src: "/home/astel/docker-compose/minecraft-old"
+      restarted: yes
+    when: result is changed
+
+  - name: cron restart minecraft-old
+    cron:
+      name: "restart minecraft-old"
+      minute: "40"
+      hour: "5"
+      job: "cd /home/astel/docker-compose/minecraft-old && /usr/local/bin/docker-compose restart"
+
+  become: false
+
+- name: firewalld minecraft-old
+  firewalld:
+    port: 25566/tcp
+    permanent: true
+    state: enabled
+    immediate: true
