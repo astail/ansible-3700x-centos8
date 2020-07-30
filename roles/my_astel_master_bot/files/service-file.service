@@ -1,0 +1,12 @@
+[Unit]
+Description=Python Discord Bot
+
+[Service]
+ExecStart=/opt/astel-master-bot/astel-master-bot.py
+WorkingDirectory=/opt/astel-master-bot/
+Restart=on-failure
+Type=simple
+User=astel
+
+[Install]
+WantedBy=multi-user.target

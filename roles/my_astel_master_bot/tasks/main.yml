@@ -1,0 +1,44 @@
+---
+
+- name: install python3 -m pip install -U discord.py
+  pip:
+    name: discord.py[voice]
+
+- name: "mkdir /opt/{{ app_name }}"
+  file:
+    path: "/opt/{{ app_name }}"
+    state: directory
+
+- name: "copy {{ app_name }}.py"
+  copy:
+    src: "{{ app_name }}.py"
+    dest: "/opt/{{ app_name }}/{{ app_name }}.py"
+    mode: 0755
+
+- name: "copy /etc/tmpfiles.d/{{ app_name }}.conf"
+  template:
+    src: tmpfiles_d.conf
+    dest: "/etc/tmpfiles.d/{{ app_name }}.conf"
+
+- name: "copy /etc/systemd/system/{{ app_name }}"
+  copy:
+    src: service-file.service
+    dest: "/etc/systemd/system/{{ app_name }}.service"
+    owner: root
+    mode: 0644
+
+- name: systemctl daemon reload
+  systemd:
+    name: "{{ app_name }}"
+    daemon_reload: yes
+
+- name: "{{ app_name }} stop"
+  systemd:
+    name: "{{ app_name }}"
+    state: stopped
+
+- name: "{{ app_name }} start"
+  systemd:
+    name: "{{ app_name }}"
+    state: started
+    enabled: yes
