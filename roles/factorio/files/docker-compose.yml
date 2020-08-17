@@ -1,33 +1,10 @@
 version: "2"
 services:
   factorio:
-    image: factoriotools/factorio:0.17
+    image: factoriotools/factorio:1.0
     ports:
       - "34197:34197/udp"
-      - "27015:27015/tcp"
     volumes:
       - /opt/factorio:/factorio
-    user: "845:845"
-    restart: "always"
-  exporter:
-    image: prom/node-exporter
-    command: --collector.textfile.directory=/textfiles
-    volumes:
-      - /opt/factorio/script-output/graftorio:/textfiles
-    restart: "always"
-  prometheus:
-    image: prom/prometheus
-    volumes:
-      - /opt/factorio/graftorio/data/prometheus:/prometheus
-    ports:
-      - 9090:9090
-    user: "845:845"
-    restart: "always"
-  grafana:
-    image: grafana/grafana
-    volumes:
-      - /opt/factorio/graftorio/data/grafana:/var/lib/grafana
-    ports:
-      - 3001:3000
     user: "845:845"
     restart: "always"
