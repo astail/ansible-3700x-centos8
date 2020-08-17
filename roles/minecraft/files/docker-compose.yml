@@ -13,6 +13,7 @@ services:
       ENABLE_RCON: "true"
       RCON_PASSWORD: ${RCON_PASSWORD}
       RCON_PORT: 25575
+      MEMORY: "4G"
     restart: always
 
   minecord:
