@@ -1,0 +1,36 @@
+---
+
+- name: install zabbix-release-5.2-1.el8.noarch.rpm
+  dnf:
+    name: https://repo.zabbix.com/zabbix/5.2/rhel/8/x86_64/zabbix-release-5.2-1.el8.noarch.rpm
+
+- name: gpasswd -a zabbix docker
+  user:
+    name: zabbix
+    shell: /bin/bash
+    groups: zabbix,docker
+    append: yes
+
+- name: sed zabbix-agent conf
+  lineinfile:
+    dest: /etc/zabbix/zabbix_agent2.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertafter: EOF
+  with_items:
+    - { regexp: '^Hostname=', line: 'Hostname={{ hostname }}' }
+    - { regexp: '^Server=', line: 'Server=172.16.238.200' }
+    - { regexp: '^ServerActive=', line: 'ServerActive=172.16.238.200' }
+  register: zabbix_agent_conf_result
+
+- name: systemctl start zabbix-agent2
+  systemd:
+    name: zabbix-agent2
+    state: started
+    enabled: yes
+
+- name: systemctl restart zabbix-agent2
+  systemd:
+    name: zabbix-agent2
+    state: restarted
+  when: zabbix_agent_conf_result is changed
