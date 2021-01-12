@@ -1,5 +1,6 @@
 ---
 
+hostname: "3700x"
 tmp: /tmp
 scala_version: 2.13.2
 ssh_user: "astel"
