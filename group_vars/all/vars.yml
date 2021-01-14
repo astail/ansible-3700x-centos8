@@ -19,3 +19,5 @@ slack_status_token: "{{ vault_slack_status_token }}"
 domain: "{{ vault_domain }}"
 
 vpn_port: "{{ vault_vpn_port }}"
+
+zabbix_server_ip: "172.16.238.200"

@@ -1,0 +1,35 @@
+---
+
+- name: mkdir docker-compose zabbix dir
+  file:
+    path: /home/astel/docker-compose/zabbix
+    state: directory
+    owner: astel
+    group: astel
+
+- name: git clone astail/awair
+  git:
+    repo: https://github.com/zabbix/zabbix-docker.git
+    dest: /home/astel/docker-compose/zabbix/zabbix-docker
+    version: 5.2
+
+- name: sed PHP_TZ Asia/Tokyo
+  replace:
+    dest: '/home/astel/docker-compose/zabbix/zabbix-docker/.env_web'
+    regexp: '# PHP_TZ=Europe/Riga'
+    replace: 'PHP_TZ=Asia/Tokyo'
+
+- name: sed env_srv
+  lineinfile:
+    dest: /home/astel/docker-compose/zabbix/zabbix-docker/.env_srv
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    insertafter: EOF
+  with_items:
+    - { regexp: '^ZBX_JAVAGATEWAY_ENABLE=true', line: '# ZBX_JAVAGATEWAY_ENABLE=true' }
+    - { regexp: '^ZBX_STARTJAVAPOLLERS=5', line: '# ZBX_STARTJAVAPOLLERS=5' }
+
+- name: copy docker-compose.yml
+  template:
+    src: docker-compose.yml
+    dest: /home/astel/docker-compose/zabbix/zabbix-docker/docker-compose.yml

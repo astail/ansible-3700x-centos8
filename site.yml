@@ -23,4 +23,5 @@
     - minecraft_old_world
     - my_astel_master_bot
     - certbot
+    - zabbix_server_docker
     - zabbix_agent
