@@ -14,18 +14,18 @@
   - name: wget master.zip
     get_url:
       url: https://github.com/m-tsudo/pt3/archive/master.zip
-      dest: "{{ tmp }}/archive.zip"
+      dest: "/usr/local/archive.zip"
 
   - name: unzip archive.zip
     unarchive:
-      src: "{{ tmp }}/archive.zip"
-      dest: "{{ tmp }}"
+      src: "/usr/local/archive.zip"
+      dest: "/usr/local"
       remote_src: yes
 
   - name: make && make install
     shell: make && make install
     args:
-      chdir: "{{ tmp }}/pt3-master"
+      chdir: "/usr/local/pt3-master"
 
   - name: reboot
     reboot:
