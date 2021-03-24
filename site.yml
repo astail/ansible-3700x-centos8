@@ -25,3 +25,4 @@
     - certbot
     - zabbix_server_docker
     - zabbix_agent
+    - raspberry_pi_auto_start_down
