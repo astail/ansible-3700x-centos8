@@ -1,7 +1,7 @@
 ---
 
 - name: copy pi4-start-stop.sh
-  copy:
+  template:
     src: pi4-start-stop.sh
     dest: /opt/pi4-start-stop.sh
     mode: 0755
@@ -18,7 +18,7 @@
 - name: cron raspberry pi start
   cron:
     name: "raspberry pi start"
-    minute: "0"
+    minute: "30"
     hour: "9"
     job: "/opt/pi4-start-stop.sh start"
     user: "astel"
@@ -26,7 +26,7 @@
 - name: cron raspberry pi stop
   cron:
     name: "raspberry pi stop"
-    minute: "0"
+    minute: "30"
     hour: "18"
     job: "/opt/pi4-start-stop.sh stop"
     user: "astel"
