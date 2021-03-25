@@ -1,5 +1,5 @@
 skip_list:
   - risky-file-permissions
-  - 301
-  - 701
+  - no-tabs
+  - no-handler
   - skip_ansible_lint
