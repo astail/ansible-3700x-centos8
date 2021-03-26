@@ -21,3 +21,5 @@ domain: "{{ vault_domain }}"
 vpn_port: "{{ vault_vpn_port }}"
 
 zabbix_server_ip: "172.16.238.200"
+
+smart_plug_token: "{{ vault_smart_plug_token }}"
