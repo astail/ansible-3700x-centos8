@@ -1,5 +1,5 @@
 ---
-#TODO:冪等性なし
+
 - name: git clone docker-mirakurun-epgstation
   git:
     repo: https://github.com/l3tnun/docker-mirakurun-epgstation.git
@@ -8,15 +8,15 @@
   become: false
 
 - name: docker-compose pull
-  command: /usr/local/bin/docker-compose pull
-  args:
-    chdir: /home/astel/docker-compose/docker-mirakurun-epgstation
+  docker_compose:
+    pull: yes
+    project_src: "/home/astel/docker-compose/docker-mirakurun-epgstation"
   become: false
 
 - name: docker-compose build
-  command: /usr/local/bin/docker-compose build
-  args:
-    chdir: /home/astel/docker-compose/docker-mirakurun-epgstation
+  docker_compose:
+    build: yes
+    project_src: "/home/astel/docker-compose/docker-mirakurun-epgstation"
   become: false
 
 - name: copy channels.yml
@@ -41,6 +41,5 @@
     group: astel
 
 - name: docker-compose up
-  command: docker-compose up -d
-  args:
-    chdir: /home/astel/docker-compose/docker-mirakurun-epgstation
+  docker_compose:
+    project_src: "/home/astel/docker-compose/docker-mirakurun-epgstation"
