@@ -1,0 +1,11 @@
+---
+
+- name: wget duf_0.6.0_linux_x86_64.tar.gz
+  get_url:
+    url: "https://github.com/muesli/duf/releases/download/v0.6.0/duf_0.6.0_linux_x86_64.tar.gz"
+    dest: "/usr/local/src/duf_0.6.0_linux_x86_64.tar.gz"
+
+- name: unarchive duf_0.6.0_linux_x86_64.tar.gz
+  unarchive:
+    src: "/usr/local/src/duf_0.6.0_linux_x86_64.tar.gz"
+    dest: "/usr/local/bin"
